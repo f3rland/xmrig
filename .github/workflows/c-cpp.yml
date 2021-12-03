@@ -27,27 +27,29 @@ jobs:
         with:
           name: windows_build
           path: windows_build.zip
+          
+  
   build_Ubuntu:
-    runs-on: ubuntu-latest
+  name: Build Ubuntu artifacts
+    runs-on: ubuntu-20.04
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Install dependencies
-      run: |
+      - name: Prepare Ubuntu tools
+        run: |
           sudo apt update
-          sudo apt install -y git build-essential cmake libuv1-dev libssl-dev libhwloc-dev automake libtool autoconf
-      
-    - name: Build
-      run: |
-        mkdir build && cd scripts
-        ./build_deps.sh && cd ../build
-        cmake .. -DXMRIG_DEPS=scripts/deps
-        make -j$(nproc)
-        tar cfz ubuntu_build.tar.gz xmrig
-        
+          sudo apt install -y git build-essential cmake libuv1-dev libssl-dev libhwloc-dev
+      - name: Checkout code
+        uses: actions/checkout@master
+      - name: Build project on Ubuntu
+        run: |
+          cmake .
+          make -j$(nproc)
+          tar cfz ubuntu_build.tar.gz xmrig
     - name: Upload Ubuntu build artifacts
       uses: actions/upload-artifact@v1
       with:
         name: ubuntu_build
         path: ./build/ubuntu_build.tar.gz
+
+        
+
         
