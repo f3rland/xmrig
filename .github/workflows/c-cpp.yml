@@ -28,9 +28,9 @@ jobs:
           name: windows_build
           path: windows_build.zip
           
-  
-  build_Ubuntu:
-  name: Build Ubuntu artifacts
+
+  build_lin:
+    name: Build Ubuntu artifacts
     runs-on: ubuntu-20.04
     steps:
       - name: Prepare Ubuntu tools
@@ -43,12 +43,13 @@ jobs:
         run: |
           cmake .
           make -j$(nproc)
-          tar cfz ubuntu_build.tar.gz xmrig
-    - name: Upload Ubuntu build artifacts
-      uses: actions/upload-artifact@v1
-      with:
-        name: ubuntu_build
-        path: ./build/ubuntu_build.tar.gz
+          cp src/config.json .
+          tar cfz ubuntu_build.tar.gz xmrig config.json
+      - name: Upload Ubuntu build artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: ubuntu_build
+          path: ubuntu_build.tar.gz
 
         
 
