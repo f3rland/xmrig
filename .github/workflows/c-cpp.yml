@@ -47,7 +47,7 @@ jobs:
           ./build_deps.sh && cd ../build
           cmake .. -DXMRIG_DEPS=../scripts/deps -DBUILD_STATIC=ON
           make -j$(nproc)
-          tar cfz ubuntu_build.tar.gz xmrig config.json
+          tar cfz ubuntu_build.tar.gz xmrig
       - name: Upload Ubuntu build artifacts
         uses: actions/upload-artifact@v1
         with:
